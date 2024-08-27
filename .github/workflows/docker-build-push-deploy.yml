@@ -38,5 +38,10 @@ jobs:
     - name: Verify Docker image
       run: |
         docker images bojanpetrov/flaskdocker:latest
-    - name: Deploy using Docker Compose
-      run: docker-compose -f docker-compose.yaml up -d
+    
+    - name: Deploy to Deployment Environment
+      if: success()
+      run: |
+        docker run -d -p 5000:5000 bojanpetrov/flaskdocker:latest
+
+
