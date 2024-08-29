@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: projects-config
+  namespace: flaskdocker
+data:
+  POSTGRES_DB: "postgres"
+  POSTGRES_HOST: "localhost"
+  POSTGRES_URL: postgresql://postgres:postgres@flask_db:5432/postgres
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: projects-secret
+  namespace: flaskdocker
+type: Opaque
+data:
+  POSTGRES_USER: cG9zdGdyZXM=
+  POSTGRES_PASSWORD: cG9zdGdyZXM=
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projects
+  namespace: flaskdocker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: projects
+          image: bojanpetrov/flaskdocker:latest
+          ports:
+            - containerPort: 4000
+          env:
+            - name: POSTGRES_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: projects-config
+                  key: POSTGRES_DB
+            - name: POSTGRES_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: projects-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: projects-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: projects-config
+                  key: POSTGRES_URL
+            - name: DATABASE_URL
+              value: "$(POSTGRES_URL)"
+          envFrom:
+            - configMapRef:
+                name: projects-config
+            - secretRef:
+                name: projects-secret

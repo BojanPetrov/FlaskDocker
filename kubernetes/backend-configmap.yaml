@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config
+  namespace: flaskdocker
+data:
+  FLASK_ENV: Production
+  DB_URL: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@flask_db:5432/postgres"
