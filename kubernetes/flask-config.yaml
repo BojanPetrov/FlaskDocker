@@ -1,0 +1,8 @@
+# flask-config.yaml (ConfigMap for Flask App)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config
+  namespace: my-app-namespace
+data:
+  DB_URL: "postgresql://postgres:postgres@flask-db-service:5432/postgres"

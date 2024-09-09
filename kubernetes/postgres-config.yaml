@@ -1,0 +1,8 @@
+# postgres-config.yaml (ConfigMap for Postgres)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: my-app-namespace
+data:
+  POSTGRES_DB: "postgres"

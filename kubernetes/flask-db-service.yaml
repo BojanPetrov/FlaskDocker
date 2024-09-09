@@ -1,0 +1,14 @@
+# flask-db-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-db-service
+  namespace: my-app-namespace
+spec:
+  selector:
+    app: flask-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP

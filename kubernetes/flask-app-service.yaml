@@ -1,0 +1,14 @@
+# flask-app-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+  namespace: my-app-namespace
+spec:
+  selector:
+    app: flask-app
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+  type: ClusterIP
