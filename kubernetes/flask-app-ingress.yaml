@@ -5,7 +5,8 @@ metadata:
   name: flask-app-ingress
   namespace: my-app-namespace
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - host: localhost
